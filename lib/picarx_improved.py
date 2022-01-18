@@ -11,12 +11,12 @@ except ImportError :
     substitute functions")
     from sim_ezblock import *
 
-from servo import Servo 
-from pwm import PWM
+# from servo import Servo 
+# from pwm import PWM
 # from pin import Pin
-from adc import ADC
-from filedb import fileDB
-import time
+# from adc import ADC
+# from filedb import fileDB
+# import time
 import logging
 from logdecorator import log_on_start , log_on_end , log_on_error
 
@@ -27,12 +27,10 @@ from logdecorator import log_on_start , log_on_end , log_on_error
 # @log_on_end ( logging . DEBUG , " Message when function ends
 # successfully ")
 
-
-logging_format = "%( asctime ) s : %( message ) s "
-logging . basicConfig ( format = logging_format , level = logging . INFO ,
-datefmt ="% H :% M :% S ")
-
-logging . getLogger () . setLevel ( logging . DEBUG )
+# logging format setup
+logging_format = "%(asctime)s: %(message)s"
+logging.basicConfig(format=logging_format, level=logging.INFO,datefmt="%H:%M:%S")
+logging.getLogger().setLevel(logging.DEBUG)
 # logging . debug ( message ) # use this for logging messages at DEBUG level
 
 class Picarx(object):
@@ -44,10 +42,13 @@ class Picarx(object):
         self.dir_servo_pin = Servo(PWM('P2'))
         self.camera_servo_pin1 = Servo(PWM('P0'))
         self.camera_servo_pin2 = Servo(PWM('P1'))
-        self.config_flie = fileDB('/home/pi/.config')
-        self.dir_cal_value = int(self.config_flie.get("picarx_dir_servo", default_value=0))
-        self.cam_cal_value_1 = int(self.config_flie.get("picarx_cam1_servo", default_value=0))
-        self.cam_cal_value_2 = int(self.config_flie.get("picarx_cam2_servo", default_value=0))
+        self.config_flie = "fileDB('/home/pi/.config')"
+        self.dir_cal_value = 10
+        # self.dir_cal_value = int(self.config_flie.get("picarx_dir_servo", default_value=0))
+        self.cam_cal_value_1 = 10
+        # self.cam_cal_value_1 = int(self.config_flie.get("picarx_cam1_servo", default_value=0))
+        self.cam_cal_value_2 = 10
+        # self.dir_cal_value_2 = int(self.config_flie.get("picarx_cam2_servo", default_value=0))
         self.dir_servo_pin.angle(self.dir_cal_value)
         self.camera_servo_pin1.angle(self.cam_cal_value_1)
         self.camera_servo_pin2.angle(self.cam_cal_value_2)
@@ -58,21 +59,21 @@ class Picarx(object):
         self.right_rear_dir_pin = Pin("D5")
 
 
-        self.S0 = ADC('A0')
-        self.S1 = ADC('A1')
-        self.S2 = ADC('A2')
+        self.S0 = "ADC('A0')"
+        self.S1 = "ADC('A1')"
+        self.S2 = "ADC('A2')"
 
         self.motor_direction_pins = [self.left_rear_dir_pin, self.right_rear_dir_pin]
         self.motor_speed_pins = [self.left_rear_pwm_pin, self.right_rear_pwm_pin]
-        self.cali_dir_value = self.config_flie.get("picarx_dir_motor", default_value="[1,1]")
-        self.cali_dir_value = [int(i.strip()) for i in self.cali_dir_value.strip("[]").split(",")]
+        # self.cali_dir_value = self.config_flie.get("picarx_dir_motor", default_value="[1,1]")
+        self.cali_dir_value = [1,1]
+        # self.cali_dir_value = [int(i.strip()) for i in self.cali_dir_value.strip("[]").split(",")]
         self.cali_speed_value = [0, 0]
         self.dir_current_angle = 0
         #初始化PWM引脚
         for pin in self.motor_speed_pins:
             pin.period(self.PERIOD)
             pin.prescaler(self.PRESCALER)
-
 
 
     def set_motor_speed(self,motor,speed):
