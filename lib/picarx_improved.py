@@ -8,7 +8,7 @@ try :
 except ImportError :
     print (" This computer does not appear to be a PiCar - X system\
     ( ezblock is not present ) . Shadowing hardware calls with\
-    substitute functions")
+    substitute functions.")
     from sim_ezblock import *
 
 # from servo import Servo 
