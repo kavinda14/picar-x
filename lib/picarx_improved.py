@@ -77,6 +77,8 @@ class Picarx(object):
             pin.period(self.PERIOD)
             pin.prescaler(self.PRESCALER)
 
+        atexit.register(self.stop)
+
 
     def set_motor_speed(self,motor,speed):
         # global cali_speed_value,cali_dir_value
@@ -262,7 +264,7 @@ if __name__ == "__main__":
     px.backward(50)
 
     # stops the car if interpreter crashes
-    atexit.register(px.stop) 
+    # atexit.register(px.stop) 
     # sys.exit()
     time.sleep(1)
     px.stop()

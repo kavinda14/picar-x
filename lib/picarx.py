@@ -52,6 +52,8 @@ class Picarx(object):
             pin.period(self.PERIOD)
             pin.prescaler(self.PRESCALER)
 
+        self.cleanup()
+
 
 
     def set_motor_speed(self,motor,speed):
@@ -71,6 +73,9 @@ class Picarx(object):
         else:
             self.motor_direction_pins[motor].low()
             self.motor_speed_pins[motor].pulse_width_percent(speed)
+        
+        atexit.register(self.stop)
+
 
     def motor_speed_calibration(self,value):
         # global cali_speed_value,cali_dir_value
@@ -233,7 +238,6 @@ if __name__ == "__main__":
     time.sleep(1)
     px.backward(10)
     # px.forward(50)
-    atexit.register(px.stop) 
 
     time.sleep(1)
     px.stop()
