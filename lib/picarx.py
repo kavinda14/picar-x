@@ -227,6 +227,12 @@ class Picarx(object):
         time.sleep(1)
         px.backward(10)   
 
+    def user_input_maneuver(self, px):
+        user_input = input()
+        if user_input == "forward":
+            px.forward(10)
+        else:
+            print("Wrong input")
 
 if __name__ == "__main__":
     px = Picarx()

@@ -253,15 +253,22 @@ class Picarx(object):
         time.sleep(1)
         px.backward(10)        
 
+    def user_input_maneuver(self, px):
+        user_input = input()
+        if user_input == "forward":
+            px.forward(10)
+        else:
+            print("Wrong input")
 
 
 if __name__ == "__main__":
     px = Picarx()
     # px.forward(50)
-    px.set_dir_servo_angle(1)
-    px.backward(50)
-    px.set_dir_servo_angle(0)
-    px.backward(50)
+    # px.set_dir_servo_angle(1)
+    # px.backward(50)
+    # px.set_dir_servo_angle(0)
+    # px.backward(50)
+    px.user_input_maneuver(px)
 
     # stops the car if interpreter crashes
     # atexit.register(px.stop) 
