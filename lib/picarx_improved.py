@@ -10,6 +10,8 @@ except ImportError :
     ( ezblock is not present ) . Shadowing hardware calls with\
     substitute functions.")
     from sim_ezblock import *
+    import atexit
+    import sys
 
 # from servo import Servo 
 # from pwm import PWM
@@ -175,7 +177,8 @@ class Picarx(object):
             if abs_current_angle > 40:
                 abs_current_angle = 40
             power_scale = (100 - abs_current_angle) / 100.0 
-            print("power_scale:",power_scale)
+            # power_scale = 1
+            # print("power_scale:",power_scale)
             if (current_angle / abs_current_angle) > 0:
                 self.set_motor_speed(1, -1*speed)
                 self.set_motor_speed(2, speed * power_scale)
@@ -186,6 +189,7 @@ class Picarx(object):
             self.set_motor_speed(1, -1*speed)
             self.set_motor_speed(2, speed)  
 
+    @log_on_start ( logging . DEBUG , "started forward()")
     def forward(self,speed):
         current_angle = self.dir_current_angle
         if current_angle != 0:
@@ -194,6 +198,7 @@ class Picarx(object):
             if abs_current_angle > 40:
                 abs_current_angle = 40
             power_scale = (100 - abs_current_angle) / 100.0 
+            # power_scale = 1 
             print("power_scale:",power_scale)
             if (current_angle / abs_current_angle) > 0:
                 self.set_motor_speed(1, speed)
@@ -203,8 +208,10 @@ class Picarx(object):
                 self.set_motor_speed(2, -1*speed )
         else:
             self.set_motor_speed(1, speed)
-            self.set_motor_speed(2, -1*speed)                  
-
+            self.set_motor_speed(2, -1*speed)        
+    @log_on_end ( logging . DEBUG , "stopped forward()")
+          
+    # @atexit.register
     def stop(self):
         self.set_motor_speed(1, 0)
         self.set_motor_speed(2, 0)
@@ -236,10 +243,24 @@ class Picarx(object):
         #print(cm)
         return cm
 
+    def parallel_park(self, px):
+
+        px.ba(50)
+
+
+
 
 if __name__ == "__main__":
     px = Picarx()
-    px.forward(50)
+    # px.forward(50)
+    px.set_dir_servo_angle(1)
+    px.backward(50)
+    px.set_dir_servo_angle(0)
+    px.backward(50)
+
+    # stops the car if interpreter crashes
+    atexit.register(px.stop) 
+    # sys.exit()
     time.sleep(1)
     px.stop()
     # set_dir_servo_angle(0)

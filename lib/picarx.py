@@ -11,6 +11,8 @@ from pin import Pin
 from adc import ADC
 from filedb import fileDB
 import time
+import atexit
+
 
 class Picarx(object):
     PERIOD = 4095
@@ -215,7 +217,14 @@ class Picarx(object):
 
 if __name__ == "__main__":
     px = Picarx()
-    px.forward(50)
+
+    px.set_dir_servo_angle(1)
+    px.backward(50)
+    px.set_dir_servo_angle(0)
+    px.backward(50)
+    # px.forward(50)
+    atexit.register(px.stop) 
+
     time.sleep(1)
     px.stop()
     # set_dir_servo_angle(0)
