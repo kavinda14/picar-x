@@ -6,6 +6,9 @@ from adc import ADC
 from filedb import fileDB
 import time
 
+import sys
+sys.path.append(r'/home/pi/picar-x/lib')
+
 
 
 class Picarx(object):
