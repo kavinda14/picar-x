@@ -1,3 +1,9 @@
+import sys
+sys.path.append(r'/home/pi/picar-x/lib')
+
+from utils import reset_mcu
+reset_mcu()
+
 # from ezblock import Servo,PWM,fileDB,Pin,ADC
 from servo import Servo 
 from pwm import PWM
@@ -5,11 +11,6 @@ from pin import Pin
 from adc import ADC
 from filedb import fileDB
 import time
-
-import sys
-sys.path.append(r'/home/pi/picar-x/lib')
-
-
 
 class Picarx(object):
     PERIOD = 4095
