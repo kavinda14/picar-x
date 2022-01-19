@@ -214,13 +214,23 @@ class Picarx(object):
         #print(cm)
         return cm
 
+    def parallel_park(self, px):
+        px.set_dir_servo_angle(1)
+        time.sleep(1)
+        px.backward(10)
+        px.set_dir_servo_angle(0)
+        time.sleep(1)
+        px.backward(10)   
+
 
 if __name__ == "__main__":
     px = Picarx()
 
     px.set_dir_servo_angle(1)
+    time.sleep(1)
     px.backward(10)
     px.set_dir_servo_angle(0)
+    time.sleep(1)
     px.backward(10)
     # px.forward(50)
     atexit.register(px.stop) 
