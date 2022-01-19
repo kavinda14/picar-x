@@ -219,9 +219,9 @@ if __name__ == "__main__":
     px = Picarx()
 
     px.set_dir_servo_angle(1)
-    px.backward(50)
+    px.backward(10)
     px.set_dir_servo_angle(0)
-    px.backward(50)
+    px.backward(10)
     # px.forward(50)
     atexit.register(px.stop) 
 
