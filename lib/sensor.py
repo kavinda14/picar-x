@@ -1,10 +1,10 @@
 from adc import ADC
 
 class Sensor():
-    def __init__(self):
-        self.adc0 = ADC("A0")
-        self.adc1 = ADC("A1")
-        self.adc2 = ADC("A2")
+    def __init__(self, ad0, adc1, adc2):
+        self.adc0 = ad0
+        self.adc1 = adc1
+        self.adc2 = adc2
         self.poll_adc0, self.poll_adc1, self.poll_adc2 = [list() for _ in range(3)]
 
     def get_sensor_reading(self):

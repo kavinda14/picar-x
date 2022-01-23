@@ -10,6 +10,9 @@ from pwm import PWM
 from pin import Pin
 from adc import ADC
 from filedb import fileDB
+from sensor import Sensor
+from interpreter import Interpreter
+from controller import Controller
 import time
 import atexit
 
@@ -51,6 +54,10 @@ class Picarx(object):
         for pin in self.motor_speed_pins:
             pin.period(self.PERIOD)
             pin.prescaler(self.PRESCALER)
+
+
+        self.sensor = Sensor(self.S0, self.S1, self.S2)
+        self.interpreter = Interpreter()
 
         atexit.register(self.stop)
 
@@ -232,6 +239,13 @@ class Picarx(object):
             px.forward(10)
         else:
             print("Wrong input")
+
+    def follow_line(self, px):
+        while True:
+            status = self.interpreter.get_line_status()
+            controller = Controller(px)
+            controller.control_car(status)
+
 
 if __name__ == "__main__":
     px = Picarx()
