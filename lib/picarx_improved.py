@@ -2,6 +2,12 @@
 import time
 try :
     from ezblock import *
+    from servo import Servo 
+    from pwm import PWM
+    from pin import Pin
+    from adc import ADC
+    from filedb import fileDB
+    import time
     from ezblock import __reset_mcu__
     __reset_mcu__ ()
     time . sleep (0.01)
@@ -13,12 +19,6 @@ except ImportError :
     import atexit
     import sys
 
-# from servo import Servo 
-# from pwm import PWM
-# from pin import Pin
-# from adc import ADC
-# from filedb import fileDB
-# import time
 import logging
 from logdecorator import log_on_start , log_on_end , log_on_error
 
