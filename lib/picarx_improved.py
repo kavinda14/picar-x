@@ -1,15 +1,16 @@
 # from ezblock import Servo,PWM,fileDB,Pin,ADC
 import time
 try :
-    from ezblock import *
     from servo import Servo 
     from pwm import PWM
     from pin import Pin
     from adc import ADC
     from filedb import fileDB
     import time
-    from ezblock import __reset_mcu__
-    __reset_mcu__ ()
+    from utils import reset_mcu
+    reset_mcu()
+    # from ezblock import __reset_mcu__
+    # __reset_mcu__ ()
     time . sleep (0.01)
 except ImportError :
     print (" This computer does not appear to be a PiCar - X system\
