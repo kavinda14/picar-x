@@ -7,10 +7,9 @@ try :
     from adc import ADC
     from filedb import fileDB
     import time
+    import atexit
     from utils import reset_mcu
     reset_mcu()
-    # from ezblock import __reset_mcu__
-    # __reset_mcu__ ()
     time . sleep (0.01)
 except ImportError :
     print (" This computer does not appear to be a PiCar - X system\
@@ -253,13 +252,6 @@ class Picarx(object):
         px.set_dir_servo_angle(0)
         time.sleep(1)
         px.backward(10)        
-
-    def user_input_maneuver(self, px):
-        user_input = input()
-        if user_input == "forward":
-            px.forward(10)
-        else:
-            print("Wrong input")
 
 
 if __name__ == "__main__":
