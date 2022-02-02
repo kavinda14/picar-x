@@ -20,6 +20,11 @@ except ImportError :
     import sys
 
 import logging
+import concurrent.futures
+from sensor import Sensor
+from interpreter import Interpreter
+from controller import Controller
+from bus import Bus
 from logdecorator import log_on_start , log_on_end , log_on_error
 
 # use these for debugging
@@ -261,26 +266,14 @@ if __name__ == "__main__":
     # px.backward(50)
     # px.set_dir_servo_angle(0)
     # px.backward(50)
-    px.user_input_maneuver(px)
+    # px.user_input_maneuver(px)
 
     # stops the car if interpreter crashes
     # atexit.register(px.stop) 
     # sys.exit()
-    time.sleep(1)
-    px.stop()
-    # set_dir_servo_angle(0)
     # time.sleep(1)
-    # self.set_motor_speed(1, 1)
-    # self.set_motor_speed(2, 1)
-    # camera_servo_pin.angle(0)
-# set_camera_servo1_angle(cam_cal_value_1)
-# set_camera_servo2_angle(cam_cal_value_2)
-# set_dir_servo_angle(dir_cal_value)
-
-# if __name__ == "__main__":
-#     try:
-#         # dir_servo_angle_calibration(-10) 
-#         while 1:
-#             test()
-#     finally: 
-#         stop()
+    # px.stop()
+    
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        eSensor = executor.submit(sensor_function, sensor_values_bus, sensor_delay)
+        eInterpreter = executor.submit(interpreter_function, sensor_values_bus , interpreter_bus , interpreter_delay)

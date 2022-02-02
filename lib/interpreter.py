@@ -1,8 +1,10 @@
 
 class Interpreter():
-    def __init__(self, sensitivity=80, polarity=30):
-        self.sensitivity = sensitivity
-        self.polarity = polarity
+    def __init__(self, sens=80, pol=30):
+        self.sens = sens
+        self.pol = pol
+        self.line_dir = 0
+        self.line_mag = 0
 
     def processing(self, value_list):
         # Redefine the sensor value for intuition
