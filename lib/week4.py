@@ -1,10 +1,11 @@
 import time
+import sys
 import concurrent.futures
 import threading
-from interpreter import Interpreter
+from interpreter import Interpretation
 from sensor import Sensor
 from controller import Controller
-from bus import Bus
+from bus import Busses
         
 def Consumers(consumerbusses,exitEvent):
     controller = Controller(40)
@@ -25,14 +26,14 @@ def Consumers(consumerbusses,exitEvent):
         time.sleep(0.1)
 
 def ConsumerProducers(producebusses,consumerbusses,exitEvent):
-    intpre = Interpreter(80,30)
+    intpre = Interpretation(80,30)
     while True:
         # Get three sensor values from Producer worker.
         # Then, calculate the off-center and the direction
-        intpre.main_processing(producebusses.read())
+        intpre.graysensor_processing(producebusses.read())
         
         # Write the command angle on the Consumer busses.
-        consumerbusses.write(-intpre.output())
+        consumerbusses.write(-intpre.graysensor_output())
 
         # If exitEvent is true, stop the while loop
         if exitEvent.is_set():
@@ -46,7 +47,7 @@ def Producers(producebusses,exitEvent):
     while True:
         # Read three sensor values.
         # Then, write the sensor values on the Producer busses.
-        producebusses.write(sensor.read())
+        producebusses.write(sensor.graycolor.read())
 
         # If exitEvent is true, stop the while loop
         if exitEvent.is_set():
@@ -56,8 +57,8 @@ def Producers(producebusses,exitEvent):
         time.sleep(0.1)
 
 if __name__ == "__main__":
-    producebusses = Bus()
-    consumerbusses = Bus()
+    producebusses = Busses()
+    consumerbusses = Busses()
     exitEvent = threading.Event()  
     try:
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
